@@ -209,15 +209,13 @@ def run():
     """,
     unsafe_allow_html=True
     )
-
-    st.image('77.jpg', caption='Apple', width=30, use_column_width=True)
     st.markdown(
     """
     <div style="font-size: 18px; line-height: 1.6;">
-
     <p>Grafik menunjukkan pergerakan harga saham AAPL yang mengalami kenaikan signifikan, mencapai angka <strong style="color: #00FF00;">180 dolar</strong>. Prediksi harga untuk tahun selanjutnya menunjukkan tren kenaikan yang lebih curam, dengan nilai yang tidak jauh berbeda dari hasil validasi.</p>
 
     </div>
     """,
     unsafe_allow_html=True
     )
+     st.image('77.jpg', caption='Apple', width=30, use_column_width=True)
