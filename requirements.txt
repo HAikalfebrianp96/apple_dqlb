@@ -1,7 +1,7 @@
 Pandas==1.5.3
 Plotly==5.15.0
 TensorFlow==2.15.0
-plotly==5.18.0
+plotly==5.17.0
 matplotlib==3.8.2
 scikit-learn
 streamlit
