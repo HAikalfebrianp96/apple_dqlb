@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
+import keras
 from keras import models
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
@@ -210,7 +211,7 @@ def run():
     )
 
     # Load the trained model
-    model = load_model('keras_model.keras')
+    model = keras.models.load_model('keras_model.keras')
 
     # Scale the data
     scaler = MinMaxScaler(feature_range=(0,1))
