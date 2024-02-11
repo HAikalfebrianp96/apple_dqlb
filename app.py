@@ -210,48 +210,7 @@ def run():
     unsafe_allow_html=True
     )
 
-    # Load the trained model
-    model = keras.models.load_model('keras_model.keras')
-
-    # Scale the data
-    scaler = MinMaxScaler(feature_range=(0,1))
-    scaled_data = scaler.fit_transform(dataset)
-
-    # Split the data into training and testing sets
-    training_data_len = int(len(dataset) * 0.8)
-    train_data = scaled_data[:training_data_len, :]
-    test_data = scaled_data[training_data_len - 60:, :]
-
-    # Prepare the testing data
-    x_test = []
-    y_test = []
-    for i in range(60, len(test_data)):
-        x_test.append(test_data[i - 60:i, 0])
-        y_test.append(test_data[i, 0])
-
-    x_test, y_test = np.array(x_test), np.array(y_test)
-    x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-
-    # Get the predicted prices
-    predictions = model.predict(x_test)
-    predictions = scaler.inverse_transform(predictions)
-
-    # Plotting
-    train = data[:training_data_len]
-    valid = data[training_data_len:]
-    valid['Predictions'] = predictions
-
-    plt.figure(figsize=(16, 8))
-    plt.title('Model')
-    plt.xlabel('Scale (Years)', fontsize=18)
-    plt.ylabel('Close Price USD($)', fontsize=18)
-    plt.plot(train['Close'], label='Train')
-    plt.plot(valid['Close'], label='Val')
-    plt.plot(valid['Predictions'], label='Predictions')
-    plt.legend(loc='lower right')
-    plt.show()
-    # Display the plot
-    st.pyplot(plt)
+    st.image('77.jpg', caption='Apple', width=30, use_column_width=True)
     st.markdown(
     """
     <div style="font-size: 18px; line-height: 1.6;">
