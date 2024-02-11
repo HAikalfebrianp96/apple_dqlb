@@ -10,3 +10,6 @@ Menggunakan teknologi canggih jaringan saraf LSTM bertumpuk dalam konteks lingku
 **Data Daily Chart EOD fmp:**
 https://financialmodelingprep.com/api/v3/historical-price-full/AAPL
 
+**link project streamlit:**
+https://appledqlb-cqgudpbaoafprrpcywvbzu.streamlit.app/
+
