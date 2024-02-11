@@ -16,10 +16,10 @@ st.sidebar.image(IMAGE_PATH, use_column_width=True)
 st.sidebar.success("Select a above.")
 
 PAGE_PATHS = {
-    "Home": Path(r"C:\Users\Lenovo\tubes\home.py"),
-    "About Data ": Path(r"C:\Users\Lenovo\tubes\about.py"),
-    "Visualization": Path(r"C:\Users\Lenovo\tubes\expalantion.py"),
-    "Conclusion": Path(r"C:\Users\Lenovo\tubes\app.py"),
+    "Home": Path("home.py"),
+    "About Data ": Path("about.py"),
+    "Visualization": Path("expalantion.py"),
+    "Conclusion": Path("app.py"),
 }
 st.sidebar.title("Navigation")
 selection = st.sidebar.radio("Go to", list(PAGE_PATHS.keys()), key="nav")
