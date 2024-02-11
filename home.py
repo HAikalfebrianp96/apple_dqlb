@@ -3,7 +3,7 @@ title = "Home"  # Position at the top
 
 
 def run():
-    st.image('33.jpg', caption='Apple', width=30, use_column_width=True)
+    st.image('18.jpg', caption='Apple', width=30, use_column_width=True)
     # Mengurangi margin atas agar tulisan lebih dekat dengan gambar
     st.write("""
     <div style="text-align: center; margin-top: -20px;">
