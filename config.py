@@ -18,8 +18,8 @@ st.sidebar.success("Select a above.")
 PAGE_PATHS = {
     "Home": Path("home.py"),
     "About Data ": Path("about.py"),
-    "Visualization": Path("expalantion.py"),
-    "Conclusion": Path("app.py"),
+    "Visualization": Path("app.py"),
+    "Conclusion": Path("expalantion.py"),
 }
 st.sidebar.title("Navigation")
 selection = st.sidebar.radio("Go to", list(PAGE_PATHS.keys()), key="nav")
