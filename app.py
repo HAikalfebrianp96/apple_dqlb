@@ -3,10 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 from PIL import Image
-from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import Sequential
-from keras.layers import Dense, LSTM
 from statsmodels.tsa.stattools import adfuller
 from pylab import rcParams
 import plotly.graph_objs as go
