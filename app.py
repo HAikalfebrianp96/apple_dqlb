@@ -209,6 +209,7 @@ def run():
     """,
     unsafe_allow_html=True
     )
+    st.image('77.jpg', caption='Apple', width=30, use_column_width=True)
     st.markdown(
     """
     <div style="font-size: 18px; line-height: 1.6;">
@@ -218,4 +219,4 @@ def run():
     """,
     unsafe_allow_html=True
     )
-     st.image('77.jpg', caption='Apple', width=30, use_column_width=True)
+    
