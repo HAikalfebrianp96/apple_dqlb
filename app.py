@@ -2,8 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
-import keras
-from keras import models
+from PIL import Image
 from keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
