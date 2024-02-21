@@ -59,33 +59,58 @@ def run():
             )
 
         with tab2:
-            #st.markdown("<div style='text-align: justify;'>", unsafe_allow_html=True)
-
-            # Content for the second tab
             st.subheader("Identifikasi Masalah untuk Pembeli Saham AAPL (2018-2022)")
             st.markdown(
-                """
-                Berdasarkan data Daily Chart EOD AAPL dari fmp (2018-2022) dan menggunakan model LSTM, berikut adalah 3 poin identifikasi masalah untuk pembeli saham AAPL:
-
-                1. **Tren Penurunan Jangka Panjang:**
-
-                Model LSTM menunjukkan tren penurunan harga saham AAPL dalam jangka panjang (2018-2022).
-                Hal ini dapat menjadi sinyal risiko bagi pembeli saham, karena harga saham AAPL diprediksi akan terus turun dalam jangka panjang.
-                Pembeli saham perlu mempertimbangkan faktor ini sebelum membeli saham AAPL, dan melakukan analisis lebih lanjut untuk menentukan apakah tren ini akan berlanjut atau tidak.
-
-                2. **Volatilitas Tinggi:**
-
-                Model LSTM menunjukkan volatilitas tinggi pada harga saham AAPL, dengan fluktuasi harga yang signifikan dalam jangka pendek.
-                Volatilitas tinggi ini dapat meningkatkan risiko investasi dan membuat pembeli saham sulit untuk menentukan waktu pembelian yang tepat.
-                Pembeli saham perlu memiliki toleransi risiko yang tinggi dan strategi investasi yang tepat untuk menghadapi volatilitas tinggi ini.
-
-                3. **Prediksi Harga yang Tidak Akurat:**
-
-                Model LSTM memiliki keterbatasan dalam memprediksi harga saham dengan akurasi yang tinggi.
-                Prediksi harga yang dihasilkan oleh model LSTM dapat berbeda dengan harga aktual di pasar saham.
-                Pembeli saham perlu mempertimbangkan faktor ini dan tidak sepenuhnya bergantung pada prediksi model LSTM dalam membuat keputusan investasi.
-                """
+                    """
+                    <style>
+                    .reportview-container {
+                        background: #f6f6f6;
+                        padding: 1rem;
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True
+                    )
+                
+                # Set title style
+            st.markdown(
+                    """
+                    <style>
+                    .title {
+                        color: #333333;
+                        text-align: center;
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True
                 )
-
-        # Close center alignment
+                
+                # Set text style
+            st.markdown(
+                    """
+                    <style>
+                    .text {
+                        color: #555555;
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True
+                )
+                
+            st.markdown("""
+                <div class='text'>
+                <p>Berdasarkan data Daily Chart EOD AAPL dari fmp (2018-2022) dan menggunakan model LSTM, berikut adalah 3 poin identifikasi masalah untuk pembeli saham AAPL:</p>
+                <ol>
+                    <li><strong>Tren Penurunan Jangka Panjang:</strong> Model LSTM menunjukkan tren penurunan harga saham AAPL dalam jangka panjang (2018-2022). Hal ini dapat menjadi sinyal risiko bagi pembeli saham, karena harga saham AAPL diprediksi akan terus turun dalam jangka panjang. Pembeli saham perlu mempertimbangkan faktor ini sebelum membeli saham AAPL, dan melakukan analisis lebih lanjut untuk menentukan apakah tren ini akan berlanjut atau tidak.</li>
+                </ol>
+                <p><strong>Tujuan analisis ini adalah:</strong></p>
+                <ul>
+                    <li>Mendeteksi adanya tren penurunan jangka panjang pada harga saham AAPL yang dapat menjadi sinyal risiko bagi pembeli saham.</li>
+                    <li>Memberikan informasi kepada pembeli saham AAPL agar mempertimbangkan kemungkinan tren penurunan harga jangka panjang sebelum membeli saham.</li>
+                    <li>Membantu pembeli saham AAPL melakukan analisis lebih lanjut dengan mempelajari faktor-faktor fundamental perusahaan dan kondisi pasar untuk menentukan apakah tren penurunan akan berlanjut atau terjadi pembalikan tren.</li>
+                </ul>
+                <p>Secara umum, analisis ini bertujuan untuk membantu pembeli saham AAPL mengambil keputusan investasi yang lebih baik berdasarkan informasi prediksi harga di masa depan menggunakan data historis dan pembelajaran mesin.</p>
+                </div>
+                """, unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
+
