@@ -7,7 +7,7 @@ st.set_page_config(
     page_icon="👋",
 )
 
-st.write("# focasting data apple (AAPL) Historical Stock Data 👋")
+st.write("# Focasting Data Apple (AAPL) Historical Stock Data 👋")
 
 IMAGE_PATH = "44.jpeg"  # Replace "path_to_your_image.jpg" with the actual path to your image file
 
