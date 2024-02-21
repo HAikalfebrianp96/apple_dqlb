@@ -34,4 +34,4 @@ if page:
     st.title(page.title)
     page.run()
     
-st.sidebar.write("M HAIKAL")
+st.sidebar.write("M HAIKAL FEBRIAN P")
