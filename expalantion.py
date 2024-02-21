@@ -31,4 +31,13 @@ def run():
     </div>
     """, unsafe_allow_html=True
     )
+    st.write('''<p style="font-size:20px; color: #8B008B; font-weight: bold;">kuy Contact mana tau ada info loker ?</p>''', unsafe_allow_html=True)
+    contact_options = ["Email", "LinkedIn"]
+    selected_option = st.selectbox("Contact Option", contact_options)
+
+    if selected_option == "Email":
+        st.write("My email is: haikalphona23@gmail.com")
+
+    elif selected_option == "LinkedIn":
+        st.write("My LinkedIn profile: https://www.linkedin.com/in/m-haikal-febrian-p/")
 
