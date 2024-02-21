@@ -3,8 +3,8 @@ import importlib.util
 from pathlib import Path
 
 st.set_page_config(
-    page_title="Hello",
-    page_icon="👋",
+    page_title="Hello Semua",
+    page_icon="antichrist.png",
 )
 
 st.write("# Focasting Data Apple (AAPL) Historical Stock Data 👋")
