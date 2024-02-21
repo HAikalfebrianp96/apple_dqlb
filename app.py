@@ -29,43 +29,11 @@ def run():
     # Configure graph layout
     layout = go.Layout(
         title='Apple (AAPL) Moving Averages',
-        font=dict(size=15)
+        font=dict(size=20),
+        title_xanchor='center',
+        title_x=0.5
     )
-    st.markdown(
-    """
-    <div style="font-size: 18px; line-height: 1.6;">
-
-    <p>Grafik menunjukkan pergerakan harga saham AAPL dan Moving Average (MA) 50 hari, 100 hari, dan 150 hari selama periode 2018 - 2022.</p>
-
-    <h3 style="color: #000000;">Analisis:</h3>
-
-    <ul>
-        <li><strong>Tren:</strong> Saham AAPL menunjukkan tren naik secara keseluruhan selama periode ini.</li>
-        <li><strong>Moving Average:</strong>
-            <ul>
-                <li style="color: #2ca02c;"><strong>MA 50 hari (hijau):</strong> Berada di atas MA 100 hari (merah) dan MA 150 hari (hijau), menunjukkan tren naik jangka pendek.</li>
-                <li style="color: #d62728;"><strong>MA 100 hari (merah):</strong> Berada di atas MA 150 hari (hijau), menunjukkan tren naik jangka menengah.</li>
-            </ul>
-        </li>
-        <li><strong>Support & Resistance:</strong>
-            <ul>
-                <li style="color: #2ca02c;"><strong>MA 50 hari (hijau):</strong> Dapat bertindak sebagai support (level support) saat harga turun.</li>
-                <li style="color: #d62728;"><strong>MA 100 hari (merah) dan MA 150 hari (hijau):</strong> Dapat bertindak sebagai resistance (level resistance) saat harga naik.</li>
-            </ul>
-        </li>
-    </ul>
-
-    </div>
-    """,
-    unsafe_allow_html=True
-    )
-
-    
-   
-    # Create the figure
     fig = go.Figure(data=data, layout=layout)
-  
-
     # Display the candlestick chart
     st.plotly_chart(fig)
     trace2 = go.Scatter(
@@ -75,7 +43,73 @@ def run():
         line=dict(color='blue', width=1),
         name='Moving Average of 30 periods'
     )
+    st.markdown(
+        """
+        <div style="font-size: 18px; line-height: 1.6;">
 
+        <p>Grafik menunjukkan pergerakan harga saham AAPL dan Moving Average (MA) 50 hari, 100 hari, dan 150 hari selama periode 2018 - 2022.</p>
+
+        <h3 style="color: #000000;">Analisis:</h3>
+
+        <ul>
+            <li><strong>Tren:</strong> Saham AAPL menunjukkan tren naik secara keseluruhan selama periode ini.</li>
+            <li><strong>Moving Average:</strong>
+                <ul>
+                    <li style="color: #2ca02c;"><strong>MA 50 hari (hijau):</strong> Berada di atas MA 100 hari (merah) dan MA 150 hari (hijau), menunjukkan tren naik jangka pendek.</li>
+                    <li style="color: #d62728;"><strong>MA 100 hari (merah):</strong> Berada di atas MA 150 hari (hijau), menunjukkan tren naik jangka menengah.</li>
+                </ul>
+            </li>
+            <li><strong>Support & Resistance:</strong>
+                <ul>
+                    <li style="color: #2ca02c;"><strong>MA 50 hari (hijau):</strong> Dapat bertindak sebagai support (level support) saat harga turun.</li>
+                    <li style="color: #d62728;"><strong>MA 100 hari (merah) dan MA 150 hari (hijau):</strong> Dapat bertindak sebagai resistance (level resistance) saat harga naik.</li>
+                </ul>
+            </li>
+        </ul>
+
+        </div>
+        <div style="border: 2px solid #ccc; padding: 10px; margin-top: 20px;">
+            <p><strong>Note:</strong> Analisis teknikal lebih lanjut menunjukkan bahwa terdapat level support yang kuat di sekitar MA 50, dengan potensi untuk memantulkan harga saham kembali ke arah tren naik utama.</p>
+        </div>
+        """,unsafe_allow_html=True)
+    
+    st.markdown(
+        """
+        <style>
+        .reportview-container {
+            background: #f6f6f6;
+            padding: 1rem;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Set title style
+    st.markdown(
+        """
+        <style>
+        .title {
+            color: #333333;
+            text-align: center;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Set text style
+    st.markdown(
+        """
+        <style>
+        .text {
+            color: #555555;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
     trace3 = go.Scatter(
         x=df['Date'],
         y=avg_50,
@@ -89,13 +123,16 @@ def run():
 
     # Define graph layout
     layout = go.Layout(
-        title='Apple (AAPL) Moving Averages',
-        font=dict(size=15)
+        title='Apple (AAPL) Moving Averages periods 30- 50',
+        font=dict(size=20),
+        title_xanchor='center',
+        title_x=0.5
     )
 
     # Create the figure
     fig = go.Figure(data=data, layout=layout)
-    
+    # Display the candlestick chart with moving averages
+    st.plotly_chart(fig)
     st.markdown(
     """
     <div style="font-size: 18px; line-height: 1.6;">
@@ -108,21 +145,11 @@ def run():
     </ul>
     <p>Volume: Volume perdagangan saham AAPL meningkat pada tahun 2020 dan 2021, menunjukkan minat investor yang tinggi.</p>
     
-    <div style="border: 2px solid #ccc; padding: 10px; margin-top: 20px;">
-        <p><strong>Note:</strong> Analisis teknikal lebih lanjut menunjukkan bahwa terdapat level support yang kuat di sekitar MA 50, dengan potensi untuk memantulkan harga saham kembali ke arah tren naik utama.</p>
-    </div>
+    
 
     </div>
-    """,
-    unsafe_allow_html=True
-    )
-
-
-    # Display the candlestick chart with moving averages
-    st.plotly_chart(fig)
-
-
-
+    """,unsafe_allow_html=True)
+    
     #Splitting the data into training and testing
     data_training = df['Close'].iloc[:int(len(df)*0.70)]
     data_testing = df['Close'].iloc[int(len(df)*0.70):]
@@ -136,6 +163,7 @@ def run():
     plt.plot(data_training.index, data_training, 'blue', label='Train data')
     plt.plot(data_testing.index, data_testing, 'green', label='Test data')
     plt.legend()
+    st.pyplot(plt)
 
     # Display the plot
     st.markdown(
@@ -161,16 +189,11 @@ def run():
         <li><strong>Pola:</strong> Data menunjukkan tren naik yang berlanjut, meskipun dengan volatilitas yang lebih tinggi dibandingkan data latih.</li>
         <li><strong>Keakuratan Prediksi:</strong> Model yang dilatih pada data latih dapat memprediksi harga penutupan saham AAPL dengan cukup akurat pada data uji.</li>
     </ul>
-
     </div>
-    """,
-    unsafe_allow_html=True
-    )
-
-   
-    st.pyplot(plt)
-
-
+    """,unsafe_allow_html=True)
+    
+    
+    
     data = df.filter(['Close'])
     dataset = data.values
 
@@ -182,7 +205,13 @@ def run():
         result_df['Results']['#Lags Used'] = adft[2] 
         result_df['Results']['#Observations Used'] = adft[3]
         for key,val in adft[4].items():
-            result_df.loc['Critical Value {}'.format(key)] = val      
+            result_df.loc['Critical Value {}'.format(key)] = val
+        st.markdown(
+        """
+        <div style="font-size: 20px; font-weight: bold; text-align: center;">
+        Dickey-Fuller Test Results
+        </div>
+        """,unsafe_allow_html=True)      
         st.table(result_df)
     test_stationarity(data)
     st.markdown(
@@ -197,25 +226,59 @@ def run():
         <li>10%: -2.5680</li>
     </ul>
 
-    <h3>Penafsiran:</h3>
+    <h3>Pejelasan:</h3>
 
     <p>Statistik uji (<strong>0,4295</strong>) jauh lebih besar dari ketiga nilai kritis (<strong>-3,4356</strong>, <strong>-2,8639</strong>, <strong>-2,5680</strong>). Artinya, nilai p (<strong>0,9826</strong>) juga jauh lebih besar dibandingkan tingkat signifikansinya (biasanya ditetapkan pada 0,05 atau 0,10). Dengan kata lain, terdapat bukti yang sangat kuat untuk menolak hipotesis nol.</p>
-
     </div>
-    """,
-    unsafe_allow_html=True
-    )
+    """,unsafe_allow_html=True)
+    
+    st.markdown(
+        """
+        <div style="font-size: 20px; font-weight: bold; text-align: center;">
+        Forecasting
+        </div>
+        """,unsafe_allow_html=True)  
     image = Image.open("70.PNG")
     st.image(image,
          use_column_width=True
     )
-    st.markdown(
-    """
-    <div style="font-size: 18px; line-height: 1.6;">
-    <p>Grafik menunjukkan pergerakan harga saham AAPL yang mengalami kenaikan signifikan, mencapai angka <strong style="color: #00FF00;">180 dolar</strong>. Prediksi harga untuk tahun selanjutnya menunjukkan tren kenaikan yang lebih curam, dengan nilai yang tidak jauh berbeda dari hasil validasi.</p>
+    st.markdown("""
+        <div style="font-size: 18px; line-height: 1.6;">
 
-    </div>
-    """,
-    unsafe_allow_html=True
-    )
+        <p>
+            Grafik menunjukkan pergerakan harga saham AAPL yang mengalami kenaikan signifikan, 
+            mencapai angka <strong style="color: #00FF00;">180 dolar</strong>. 
+            Prediksi harga untuk tahun selanjutnya menunjukkan tren kenaikan yang lebih curam, 
+            dengan nilai yang tidak jauh berbeda dari hasil validasi.
+        </p>
+        
+        <div style="border: 2px solid #ccc; padding: 10px; margin-top: 20px;">
+        
+        <p><strong>Note:</strong> 
+            Grafik menunjukkan bahwa harga saham Apple (AAPL) mengalami kenaikan tajam pada tahun 2021. 
+            Harga sahamnya mencapai angka 180 dolar AS per lembar saham, yang merupakan nilai tertinggi baru. 
+            Peningkatan harga terjadi karena peluncuran iPhone 12 series 5G oleh Apple pada tahun 2021. 
+            Produsen smartphone raksasa ini mencatat penjualan yang kuat di tengah pandemi COVID-19.
+        </p>
+            
+        <p>
+            Memasuki tahun 2022, harga saham Apple mengalami fluktuasi akibat tantangan seperti inflasi tinggi, 
+            kelangkaan chip komputer global, dan perang Rusia-Ukraina yang memengaruhi rantai pasokan. 
+            Meski demikian, performa saham Apple secara keseluruhan tetap stabil dengan baik. 
+            Diprediksi pada tahun 2023 harga saham AAPL akan kembali meningkat berdasarkan hasil perhitungan dan 
+            prakiraan (forecasting) dari para analis.
+        </p>
+            
+        <p>
+            Kenaikan tersebut didorong oleh inovasi dan peluncuran produk-produk baru oleh Apple yang disambut positif investor. 
+            Dengan begitu, secara singkat dapat dikatakan bahwa harga saham Apple diperkirakan akan terus menunjukkan tren kenaikan 
+            pada masa mendatang, didukung kinerja perusahaan yang solid.
+        </p>
+
+        </div>
+        
+        </div>
+    """, unsafe_allow_html=True)
+
+
     
