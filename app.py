@@ -248,7 +248,7 @@ def run():
         """
         <div style="font-size: 18px; line-height: 1.6;">
 
-        <p>Grafik menunjukkan pergerakan harga saham AAPL dan Moving Average (MA) 50 hari, 100 hari, dan 150 hari selama periode 2018 - 2022.</p>
+        <p>Grafik menunjukkan pergerakan harga saham AAPL dan Moving Average (MA) 50 hari, 100 hari, dan 150 hari selama periode 2017 - 2022.</p>
 
         <h3 style="color: #000000;">Analisis:</h3>
 
