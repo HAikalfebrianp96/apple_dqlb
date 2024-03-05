@@ -113,7 +113,14 @@ def run():
         # Summing the 'Close' values of the filtered DataFrame
         total_close = close_dt['Close'].sum()
         st.metric('Close Saham', value=total_close)
-        
+
+    st.markdown(
+        """
+        <div style="font-size: 20px; font-weight: bold; text-align: center;">
+        Dickey-Fuller Test Results
+        </div>
+        """,unsafe_allow_html=True)
+    
     fig, ax = plt.subplots()
     year_rent_dt.plot(kind='bar', x='Year', y='Close', ax=ax)
     ax.set_title('Yearly Sum of Close Prices')
@@ -123,7 +130,13 @@ def run():
     
     
 
-
+    st.markdown(
+        """
+        <div style="font-size: 20px; font-weight: bold; text-align: center;">
+        Dickey-Fuller Test Results
+        </div>
+        """,unsafe_allow_html=True)
+    
     # Filter data based on the selected date range
     filtered_data = main_dt[(main_dt['Date'] >= pd.to_datetime(start_date)) &
                             (main_dt['Date'] <= pd.to_datetime(end_date))].copy()
@@ -152,7 +165,13 @@ def run():
 
     st.pyplot(fig)
     
-
+    st.markdown(
+        """
+        <div style="font-size: 20px; font-weight: bold; text-align: center;">
+        Dickey-Fuller Test Results
+        </div>
+        """,unsafe_allow_html=True)
+    
     def create_monthly_open_close_df(dt):
     # Assuming 'Month' and 'Year' columns are already present in the DataFrame
         monthly_data = dt.groupby(by=['Year', 'Month']).agg({
