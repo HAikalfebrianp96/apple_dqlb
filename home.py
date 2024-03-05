@@ -59,7 +59,7 @@ def run():
             )
 
         with tab2:
-            st.subheader("Identifikasi Masalah untuk Pembeli Saham AAPL (2018-2022)")
+            st.subheader("Identifikasi Masalah untuk Pembeli Saham AAPL (2017-2022)")
             st.markdown(
                     """
                     <style>
