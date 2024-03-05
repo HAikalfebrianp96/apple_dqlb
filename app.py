@@ -117,7 +117,7 @@ def run():
     st.markdown(
         """
         <div style="font-size: 20px; font-weight: bold; text-align: center;">
-        Dickey-Fuller Test Results
+        Yearly Close Sum
         </div>
         """,unsafe_allow_html=True)
     
@@ -133,7 +133,7 @@ def run():
     st.markdown(
         """
         <div style="font-size: 20px; font-weight: bold; text-align: center;">
-        Dickey-Fuller Test Results
+        Seasonal Decompose
         </div>
         """,unsafe_allow_html=True)
     
@@ -168,7 +168,7 @@ def run():
     st.markdown(
         """
         <div style="font-size: 20px; font-weight: bold; text-align: center;">
-        Dickey-Fuller Test Results
+        Grouped Bar Chart
         </div>
         """,unsafe_allow_html=True)
     
