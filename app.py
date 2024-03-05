@@ -164,6 +164,17 @@ def run():
     fig.suptitle('Seasonal Decomposition')
 
     st.pyplot(fig)
+
+    </div>
+        <div style="border: 2px solid #ccc; padding: 10px; margin-top: 20px;">
+            <p><strong>Note:</strong> 
+                Fungsi Seasonal Decomposition berguna untuk memisahkan komponen-komponen utama dalam data deret waktu. Ini termasuk tren yang 
+        		menunjukkan arah umum perubahan data seiring waktu, musiman yang mengidentifikasi pola siklus dalam data, 
+        		serta sisa atau noise yang mewakili variabilitas acak. Dengan memisahkan komponen-komponen ini, kita dapat memahami tren jangka 
+        		panjang, pola musiman, dan variabilitas acak dalam data, yang membantu dalam analisis dan peramalan data deret waktu.
+            </p>
+        </div>
+        """,unsafe_allow_html=True)
     
     st.markdown(
         """
