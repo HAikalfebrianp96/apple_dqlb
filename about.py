@@ -5,7 +5,7 @@ df = pd.read_csv('AAPL.csv')
 # Describe the data
 
 def run():
-        st.subheader('Data from 2018-2022')
+        st.subheader('Data from 2017-2022')
         st.write(df.describe())
         st.markdown(
             """
