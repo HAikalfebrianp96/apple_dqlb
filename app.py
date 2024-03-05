@@ -7,9 +7,191 @@ from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.stattools import adfuller
 from pylab import rcParams
 import plotly.graph_objs as go
+from statsmodels.tsa.seasonal import seasonal_decompose
 title = "Stock Market Prediction"
 def run():
     df=pd.read_csv('AAPL.csv')
+    day_df = pd.read_csv("AAPL.csv")
+
+# Converting 'Date' column to datetime and extracting year and month
+    day_df['Date'] = pd.to_datetime(day_df['Date'])
+    day_df['Year'] = day_df['Date'].dt.year
+    day_df['Month'] = day_df['Date'].dt.month
+
+    # Mapping numeric months to month names
+    def create_monthly_rent_df(dt):
+        monthly_rent_dt = dt.groupby(by='Month').agg({
+            'Close': 'sum'
+        })
+        ordered_months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ]
+        monthly_rent_dt = monthly_rent_dt.reindex(ordered_months, fill_value=0)
+        return monthly_rent_dt
+
+    def Open_df(dt):
+        daily_open_dt = dt.groupby(by='Date').agg({
+            'Open': 'sum'
+        }).reset_index()
+        return daily_open_dt
+
+
+    def daily_High_df(dt):
+        daily_High_dt = dt.groupby(by='Date').agg({
+            'High': 'sum'
+        }).reset_index()
+        return daily_High_dt
+
+    def create_Low_df(dt):
+        low_dt = dt.groupby(by='Date').agg({
+            'Low': 'sum'
+        }).reset_index()
+        return low_dt 
+
+    def create_Close_df(dt):
+        close_dt = dt.groupby(by='Date').agg({
+            'Close': 'sum'
+        }).reset_index()
+        return close_dt 
+
+
+    def create_adj_df(dt):
+        adj_dt = dt.groupby(by='Date').agg({
+            'Adj Close': 'sum'  # Make sure there is no tab or space after 'Adj Close'
+        }).reset_index()
+        return adj_dt 
+
+
+    def create_Volume_df(dt):
+        Volume_dt = dt.groupby(by='Date').agg({
+            'Volume': 'sum'
+        }).reset_index()
+        return Volume_dt
+
+    def create_year_rent_df(dt):
+        year_rent_dt = dt.groupby(by='Year').agg({
+            'Close': 'sum'
+        }).reset_index()
+        return year_rent_dt
+
+    # Getting the min and max date from the DataFrame
+    min_date = day_df['Date'].min().date()
+    max_date = day_df['Date'].max().date()
+
+    # Streamlit date input for range selection
+    start_date, end_date = st.date_input(
+        label='Rentang Waktu',
+        min_value=min_date,
+        max_value=max_date,
+        value=[min_date, max_date]
+    )
+
+    # Filtering the DataFrame by the selected date range
+    main_dt = day_df[(day_df['Date'].dt.date >= start_date) & 
+                    (day_df['Date'].dt.date <= end_date)]
+
+    # Calling the processing functions
+    year_rent_dt = create_year_rent_df(main_dt)
+    adj_dt = create_adj_df(main_dt)
+    Volume_dt = create_Volume_df(main_dt)
+    close_dt = create_Close_df(main_dt)
+    low_dt = create_Low_df(main_dt)
+    daily_High_dt = daily_High_df(main_dt)
+    daily_open_dt = Open_df(main_dt)
+    monthly_rent_dt = create_monthly_rent_df(main_dt)
+
+    st.subheader('History Apple Saham')
+    col1, col2 = st.columns(2)  # Corrected to two columns, as 3 doesn't match the provided columns
+
+    with col1:
+        # Summing the 'Open' values of the filtered DataFrame
+        total_open = daily_open_dt['Open'].sum()
+        st.metric('Open Saham', value=total_open)
+
+    with col2:
+        # Summing the 'Close' values of the filtered DataFrame
+        total_close = close_dt['Close'].sum()
+        st.metric('Close Saham', value=total_close)
+        
+    fig, ax = plt.subplots()
+    year_rent_dt.plot(kind='bar', x='Year', y='Close', ax=ax)
+    ax.set_title('Yearly Sum of Close Prices')
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Sum of Close Prices')
+    st.pyplot(fig)
+    
+    
+
+
+    # Filter data based on the selected date range
+    filtered_data = main_dt[(main_dt['Date'] >= pd.to_datetime(start_date)) &
+                            (main_dt['Date'] <= pd.to_datetime(end_date))].copy()
+
+    # Define the period for the decomposition based on the filtered data
+    # For daily data, you can use monthly seasonality if you don't have multiple years of data
+    # Approximating month as 22 trading days
+    if len(filtered_data) >= 2 * 22:
+        period = 22  # Monthly frequency in trading days
+    else:
+        period = len(filtered_data) // 2  # Fall back to half the data size, not ideal but avoids error
+
+    # Decompose the closing price
+    decompose_result = seasonal_decompose(filtered_data['Close'], period=period, model='additive', extrapolate_trend='freq')
+
+    # Plotting the decomposed components
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(15, 8))
+    decompose_result.trend.plot(ax=ax1, title='Trend')
+    decompose_result.seasonal.plot(ax=ax2, title='Seasonality')
+    decompose_result.resid.plot(ax=ax3, title='Residuals')
+
+    # Clear the titles and set a common title for all subplots
+    for ax in [ax1, ax2, ax3]:
+        ax.set_title('')
+    fig.suptitle('Seasonal Decomposition')
+
+    st.pyplot(fig)
+    
+
+    def create_monthly_open_close_df(dt):
+    # Assuming 'Month' and 'Year' columns are already present in the DataFrame
+        monthly_data = dt.groupby(by=['Year', 'Month']).agg({
+            'Open': 'mean',  # Using mean instead of sum for a normalized view
+            'Close': 'mean'
+        }).reset_index()
+        return monthly_data
+
+    # Assuming the 'create_monthly_open_close_df' function has been defined
+    monthly_rent_dt = create_monthly_open_close_df(main_dt)
+
+    # Pivot the DataFrame to make 'Month' unique and get separate columns for 'Open' and 'Close'
+    monthly_pivot = monthly_rent_dt.pivot(index='Month', columns='Year', values=['Open', 'Close'])
+
+    # Generate the bar positions
+    bar_width = 0.35
+    index = np.arange(len(monthly_pivot.index))
+
+    # Start plotting
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    # Loop through the years to create stacked bars for each year
+    for i, year in enumerate(monthly_pivot['Open'].columns):
+        ax.bar(index + bar_width * i, monthly_pivot['Open'][year], bar_width, label=f'Open {year}')
+        ax.bar(index + bar_width * i, monthly_pivot['Close'][year], bar_width, bottom=monthly_pivot['Open'][year],
+            alpha=0.5, label=f'Close {year}')
+
+    ax.set_xlabel('Month')
+    ax.set_ylabel('Average Price')
+    ax.set_title('Monthly Average Open and Close Prices Comparison')
+    ax.set_xticks(index + bar_width / 2)
+    ax.set_xticklabels(monthly_pivot.index)
+    ax.legend()
+
+    # Make the plot tighter and more organized
+    fig.tight_layout()
+
+    # Show the plot in Streamlit
+    st.pyplot(fig)
     avg_30 = df['Close'].rolling(window=30, min_periods=1).mean()
     avg_50 = df['Close'].rolling(window=50, min_periods=1).mean()
     
