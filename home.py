@@ -14,7 +14,7 @@ def run():
     with tab1:
         # Content for the first tab
         st.subheader("Tentang Saham")
-        st.subheader("Menjelajahi Dunia Apple: Kisah Saham AAPL (2018 - 2022) ")
+        st.subheader("Menjelajahi Dunia Apple: Kisah Saham AAPL (2017 - 2022) ")
         
         st.markdown(
             """
@@ -99,7 +99,7 @@ def run():
                 
             st.markdown("""
                 <div class='text'>
-                <p>Berdasarkan data Daily Chart EOD AAPL dari fmp (2018-2022) dan menggunakan model LSTM, berikut adalah 3 poin identifikasi masalah untuk pembeli saham AAPL:</p>
+                <p>Berdasarkan data Daily Chart EOD AAPL dari fmp (2017-2022) dan menggunakan model LSTM, berikut adalah 3 poin identifikasi masalah untuk pembeli saham AAPL:</p>
                 <ol>
                     <li><strong>Tren Penurunan Jangka Panjang:</strong> Model LSTM menunjukkan tren penurunan harga saham AAPL dalam jangka panjang (2018-2022). Hal ini dapat menjadi sinyal risiko bagi pembeli saham, karena harga saham AAPL diprediksi akan terus turun dalam jangka panjang. Pembeli saham perlu mempertimbangkan faktor ini sebelum membeli saham AAPL, dan melakukan analisis lebih lanjut untuk menentukan apakah tren ini akan berlanjut atau tidak.</li>
                 </ol>
