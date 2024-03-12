@@ -101,18 +101,24 @@ def run():
     daily_open_dt = Open_df(main_dt)
     monthly_rent_dt = create_monthly_rent_df(main_dt)
 
+    def custom_format(number):
+    parts = f"{number:,}".split(",")
+    if len(parts) > 1:
+        return f"{parts[0]}, {','.join(parts[1:])}"
+    return f"{number}"
+
     st.subheader('History Apple Saham')
     col1, col2 = st.columns(2)  # Corrected to two columns, as 3 doesn't match the provided columns
 
     with col1:
         # Summing the 'Open' values of the filtered DataFrame
         total_open = daily_open_dt['Open'].sum()
-        st.metric('Open Saham', value=total_open)
+        st.metric('Open Saham', value=custom_format(total_open))
 
     with col2:
         # Summing the 'Close' values of the filtered DataFrame
         total_close = close_dt['Close'].sum()
-        st.metric('Close Saham', value=total_close)
+        st.metric('Close Saham', value=custom_format(total_close))
 
     st.markdown(
         """
