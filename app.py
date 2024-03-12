@@ -102,10 +102,10 @@ def run():
     monthly_rent_dt = create_monthly_rent_df(main_dt)
 
     def custom_format(number):
-    parts = f"{number:,}".split(",")
-    if len(parts) > 1:
-        return f"{parts[0]}, {','.join(parts[1:])}"
-    return f"{number}"
+        parts = f"{number:,}".split(",")
+        if len(parts) > 1:
+            return f"{parts[0]}, {','.join(parts[1:])}"
+        return f"{number}"
 
     st.subheader('History Apple Saham')
     col1, col2 = st.columns(2)  # Corrected to two columns, as 3 doesn't match the provided columns
