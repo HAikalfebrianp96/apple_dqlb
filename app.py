@@ -101,116 +101,110 @@ def run():
     daily_open_dt = Open_df(main_dt)
     monthly_rent_dt = create_monthly_rent_df(main_dt)
 
+    def custom_format(number):
+        parts = f"{number:,}".split(",")
+        if len(parts) > 1:
+            return f"{parts[0]}, {','.join(parts[1:])}"
+        return f"{number}"
+
     st.subheader('History Apple Saham')
     col1, col2 = st.columns(2)  # Corrected to two columns, as 3 doesn't match the provided columns
 
     with col1:
         # Summing the 'Open' values of the filtered DataFrame
         total_open = daily_open_dt['Open'].sum()
-        st.metric('Open Saham', value=total_open)
+        st.metric('Open Saham', value=custom_format(total_open))
 
     with col2:
         # Summing the 'Close' values of the filtered DataFrame
         total_close = close_dt['Close'].sum()
-        st.metric('Close Saham', value=total_close)
+        st.metric('Close Saham', value=custom_format(total_close))
 
-    st.markdown(
-        """
-        <div style="font-size: 20px; font-weight: bold; text-align: center;">
-        Yearly Close Sum
-        </div>
-        """,unsafe_allow_html=True)
-    
-    fig, ax = plt.subplots()
-    year_rent_dt.plot(kind='bar', x='Year', y='Close', ax=ax)
-    ax.set_title('Yearly Sum of Close Prices')
-    ax.set_xlabel('Year')
-    ax.set_ylabel('Sum of Close Prices')
-    st.pyplot(fig)
-    
-    
+    _, mid, _ = st.columns([1,4,1])
+    with mid:
+    # Create two tabs
+        tab1, tab2 = st.tabs(['Yearly Sum of Close Prices', 'Monthly Average Open and Close Prices'])
 
-    st.markdown(
-        """
-        <div style="font-size: 20px; font-weight: bold; text-align: center;">
-        Seasonal Decompose
-        </div>
-        """,unsafe_allow_html=True)
+        with tab1:
+            # Plotting the yearly sum of close prices
+            fig, ax = plt.subplots()
+            year_rent_dt.plot(kind='bar', x='Year', y='Close', ax=ax)
+            ax.set_title('Yearly Sum of Close Prices')
+            ax.set_xlabel('Year')
+            ax.set_ylabel('Sum of Close Prices')
+            st.pyplot(fig)
+
+        with tab2:
+            # Calculating the monthly open and close averages
+            def create_monthly_open_close_df(dt):
+                # Assuming 'Month' and 'Year' columns are already present in the DataFrame
+                monthly_data = dt.groupby(by=['Year', 'Month']).agg({
+                    'Open': 'mean',  # Using mean instead of sum for a normalized view
+                    'Close': 'mean'
+                }).reset_index()
+                return monthly_data
+
+            monthly_rent_dt = create_monthly_open_close_df(main_dt)
+            monthly_pivot = monthly_rent_dt.pivot(index='Month', columns='Year', values=['Open', 'Close'])
+
+            # Generate the bar positions
+            bar_width = 0.35
+            index = np.arange(len(monthly_pivot.index))
+
+            # Start plotting
+            fig, ax = plt.subplots(figsize=(12, 6))
+
+            for i, year in enumerate(monthly_pivot['Open'].columns):
+                ax.bar(index + bar_width * i, monthly_pivot['Open'][year], bar_width, label=f'Open {year}')
+                ax.bar(index + bar_width * i, monthly_pivot['Close'][year], bar_width, bottom=monthly_pivot['Open'][year],
+                    alpha=0.5, label=f'Close {year}')
+
+            ax.set_xlabel('Month')
+            ax.set_ylabel('Average Price')
+            ax.set_title('Monthly Average Open and Close Prices Comparison')
+            ax.set_xticks(index + bar_width / 2)
+            ax.set_xticklabels(monthly_pivot.index)
+            ax.legend()
+
+            fig.tight_layout()
+            st.pyplot(fig)
+        
     
     # Filter data based on the selected date range
-    filtered_data = main_dt[(main_dt['Date'] >= pd.to_datetime(start_date)) &
-                            (main_dt['Date'] <= pd.to_datetime(end_date))].copy()
+    selected_years = st.multiselect('Select Year', options=main_dt['Year'].unique())
+    selected_months = st.multiselect('Select Month', options=main_dt['Month'].unique())
 
-    # Define the period for the decomposition based on the filtered data
-    # For daily data, you can use monthly seasonality if you don't have multiple years of data
-    # Approximating month as 22 trading days
-    if len(filtered_data) >= 2 * 22:
-        period = 22  # Monthly frequency in trading days
+    # Filter the dataset based on selections
+    if selected_years and selected_months:
+        filtered_dt = main_dt[main_dt['Year'].isin(selected_years) & main_dt['Month'].isin(selected_months)].copy()
     else:
-        period = len(filtered_data) // 2  # Fall back to half the data size, not ideal but avoids error
+        # Show some message or default to the entire dataset
+        filtered_dt = main_dt.copy()
+        st.warning("No year/month selected. Showing data for the entire period.")
 
-    # Decompose the closing price
-    decompose_result = seasonal_decompose(filtered_data['Close'], period=period, model='additive', extrapolate_trend='freq')
+    # Your existing code for data manipulation and plotting here
+    # Make sure to replace main_dt with filtered_dt for all operations to reflect the filters
 
-    # Plotting the decomposed components
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(15, 8))
-    decompose_result.trend.plot(ax=ax1, title='Trend')
-    decompose_result.seasonal.plot(ax=ax2, title='Seasonality')
-    decompose_result.resid.plot(ax=ax3, title='Residuals')
+    # Example: Plotting decompose if there's enough data
+    if 'Close' in filtered_dt.columns and not filtered_dt.empty:
+        # Ensure filtered dataset has enough data points for decomposition
+        if len(filtered_dt) > 2 * 22:  # Assuming a minimum of 44 days (about 2 months of data)
+            period = 22  # Monthly frequency in trading days
+        else:
+            period = max(2, len(filtered_dt) // 2)  # Ensure period is at least 2
 
-    # Clear the titles and set a common title for all subplots
-    for ax in [ax1, ax2, ax3]:
-        ax.set_title('')
-    fig.suptitle('Seasonal Decomposition')
+        decompose_result = seasonal_decompose(filtered_dt['Close'], period=period, model='additive', extrapolate_trend='freq')
 
-    st.pyplot(fig)
-
-    st.markdown(
-        """
-        <div style="font-size: 20px; font-weight: bold; text-align: center;">
-        Grouped Bar Chart
-        </div>
-        """,unsafe_allow_html=True)
-    
-    def create_monthly_open_close_df(dt):
-    # Assuming 'Month' and 'Year' columns are already present in the DataFrame
-        monthly_data = dt.groupby(by=['Year', 'Month']).agg({
-            'Open': 'mean',  # Using mean instead of sum for a normalized view
-            'Close': 'mean'
-        }).reset_index()
-        return monthly_data
-
-    # Assuming the 'create_monthly_open_close_df' function has been defined
-    monthly_rent_dt = create_monthly_open_close_df(main_dt)
-
-    # Pivot the DataFrame to make 'Month' unique and get separate columns for 'Open' and 'Close'
-    monthly_pivot = monthly_rent_dt.pivot(index='Month', columns='Year', values=['Open', 'Close'])
-
-    # Generate the bar positions
-    bar_width = 0.35
-    index = np.arange(len(monthly_pivot.index))
-
-    # Start plotting
-    fig, ax = plt.subplots(figsize=(12, 6))
-
-    # Loop through the years to create stacked bars for each year
-    for i, year in enumerate(monthly_pivot['Open'].columns):
-        ax.bar(index + bar_width * i, monthly_pivot['Open'][year], bar_width, label=f'Open {year}')
-        ax.bar(index + bar_width * i, monthly_pivot['Close'][year], bar_width, bottom=monthly_pivot['Open'][year],
-            alpha=0.5, label=f'Close {year}')
-
-    ax.set_xlabel('Month')
-    ax.set_ylabel('Average Price')
-    ax.set_title('Monthly Average Open and Close Prices Comparison')
-    ax.set_xticks(index + bar_width / 2)
-    ax.set_xticklabels(monthly_pivot.index)
-    ax.legend()
-
-    # Make the plot tighter and more organized
-    fig.tight_layout()
-
-    # Show the plot in Streamlit
-    st.pyplot(fig)
+        # Plotting the decomposed components...
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(15, 8))
+        decompose_result.trend.plot(ax=ax1, title='Trend')
+        decompose_result.seasonal.plot(ax=ax2, title='Seasonality')
+        decompose_result.resid.plot(ax=ax3, title='Residuals')
+        fig.suptitle('Seasonal Decomposition')
+        st.pyplot(fig)
+    else:
+        st.error("Not enough data for decomposition.")
+        
     avg_30 = df['Close'].rolling(window=30, min_periods=1).mean()
     avg_50 = df['Close'].rolling(window=50, min_periods=1).mean()
     
